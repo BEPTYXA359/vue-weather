@@ -41,6 +41,9 @@ jobs:
           OPEN_WEATHER_API_KEY: ${{ secrets.OPEN_WEATHER_API_KEY }}
         run: npm run build
 
+      - name: Create .nojekyll file
+        run: touch ./dist/.nojekyll
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
