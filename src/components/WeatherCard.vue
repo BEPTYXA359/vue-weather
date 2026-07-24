@@ -190,4 +190,18 @@ const weatherDetails = computed<WeatherDetailItem[]>(() => [
   font-weight: 400;
   color: var(--card-text-muted);
 }
+
+@media (max-width: 768px) {
+  .weather-card__overview-line {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .weather-card__meta {
+    align-items: center;
+  }
+  .weather-card__details {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
 </style>

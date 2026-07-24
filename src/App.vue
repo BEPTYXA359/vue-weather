@@ -57,4 +57,13 @@ const handleSearch = (city: string): void => {
   margin: 0;
   color: #1a1a1a;
 }
+
+@media (max-width: 768px) {
+  .app-layout {
+    padding: 1rem;
+  }
+  .app-header {
+    display: none;
+  }
+}
 </style>
