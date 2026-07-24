@@ -14,6 +14,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: isProd ? '[name].[contenthash:8].js' : '[name].js',
+    publicPath: isProd ? `/${REPO_NAME}/` : '/',
     clean: true,
   },
   resolve: {
