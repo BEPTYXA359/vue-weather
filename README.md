@@ -1,5 +1,7 @@
 # Vue 3 Weather App
 
+> **[Live Demo](https://beptyxa359.github.io/vue-weather/)**
+
 ![Vue 3](https://img.shields.io/badge/Vue.js-3.5-4FC08D?style=flat-square&logo=vuedotjs)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?style=flat-square&logo=typescript)
 ![Webpack](https://img.shields.io/badge/Webpack-5.108-8DD6F9?style=flat-square&logo=webpack)
