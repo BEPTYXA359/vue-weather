@@ -1,0 +1,36 @@
+:root {
+  --pr-orange-400: #ffa333;
+  --pr-orange-500: #ff8c00;
+  --pr-orange-600: #e07b00;
+  --pr-orange-700: #b36200;
+  --pr-amber-800: #4a2800;
+  --pr-amber-900: #1c0d00;
+
+  --pr-overlay-dark-10: rgba(28, 13, 0, 0.08);
+  --pr-overlay-dark-20: rgba(28, 13, 0, 0.16);
+
+  --color-bg-app: #fdf8f3;
+
+  --el-color-primary: var(--pr-orange-500);
+  --el-color-primary-light-3: var(--pr-orange-400);
+  --el-color-primary-dark-2: var(--pr-orange-600);
+
+  --el-border-radius-base: 24px;
+
+  --el-input-text-color: var(--pr-amber-900);
+  --el-input-border-color: rgba(28, 13, 0, 0.15);
+  --el-input-focus-border-color: var(--pr-orange-500);
+
+  --card-bg: var(--pr-orange-500);
+  --card-text-main: var(--pr-amber-900);
+  --card-text-muted: var(--pr-amber-800);
+
+  --card-item-bg: var(--pr-overlay-dark-10);
+  --card-item-bg-hover: var(--pr-overlay-dark-20);
+  --card-item-border: rgba(28, 13, 0, 0.12);
+
+  --radius-card: 24px;
+  --radius-item: 16px;
+
+  --font-family-base: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}

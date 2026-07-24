@@ -1,18 +1,19 @@
 const path = require('path');
 const { VueLoaderPlugin } = require('vue-loader');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { DefinePlugin } = require('webpack');
+const Dotenv = require('dotenv-webpack');
+const CompressionPlugin = require('compression-webpack-plugin');
 
-const AutoImport = require('unplugin-auto-import/webpack');
-const Components = require('unplugin-vue-components/webpack');
-const { ElementPlusResolver } = require('unplugin-vue-components/resolvers');
+const isProd = process.env.NODE_ENV === 'production';
 
 module.exports = {
-  mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
+  mode: isProd ? 'production' : 'development',
   entry: './src/main.ts',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: '[name].[contenthash:8].js',
+    filename: isProd ? '[name].[contenthash:8].js' : '[name].js',
     clean: true,
   },
   resolve: {
@@ -37,7 +38,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
+        use: [isProd ? MiniCssExtractPlugin.loader : 'style-loader', 'css-loader'],
       },
     ],
   },
@@ -46,20 +47,37 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './public/index.html',
     }),
-    AutoImport({
-      resolvers: [ElementPlusResolver()],
-      dts: 'src/auto-imports.d.ts',
-    }),
-
-    Components({
-      resolvers: [ElementPlusResolver()],
-      dts: 'src/components.d.ts',
+    ...(isProd
+      ? [
+          new MiniCssExtractPlugin({
+            filename: '[name].[contenthash:8].css',
+          }),
+        ]
+      : []),
+    new Dotenv({
+      path: './.env',
+      systemvars: true,
+      safe: true,
+      silent: false,
     }),
     new DefinePlugin({
       __VUE_OPTIONS_API__: JSON.stringify(true),
       __VUE_PROD_DEVTOOLS__: JSON.stringify(false),
       __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: JSON.stringify(false),
     }),
+    ...(isProd
+      ? [
+          new MiniCssExtractPlugin({
+            filename: '[name].[contenthash:8].css',
+          }),
+          new CompressionPlugin({
+            algorithm: 'gzip',
+            test: /\.(js|css|html|svg)$/,
+            threshold: 10240,
+            minRatio: 0.8,
+          }),
+        ]
+      : []),
   ],
   devServer: {
     port: 3000,
@@ -71,15 +89,23 @@ module.exports = {
     splitChunks: {
       chunks: 'all',
       maxInitialRequests: Infinity,
+      minSize: 20000,
       cacheGroups: {
         vendor: {
           test: /[\\/]node_modules[\\/]/,
           name(module) {
-            const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)(?:[\\/]|$)/)[1];
+            if (!module.context) return 'npm.unknown';
+            const match = module.context.match(/[\\/]node_modules[\\/](.*?)(?:[\\/]|$)/);
+            const packageName = match ? match[1] : 'unknown';
             return `npm.${packageName.replace('@', '')}`;
           },
         },
       },
     },
+  },
+  performance: {
+    hints: isProd ? 'warning' : false,
+    maxAssetSize: 512000,
+    maxEntrypointSize: 614400,
   },
 };
